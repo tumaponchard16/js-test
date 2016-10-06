@@ -1,0 +1,629 @@
+/***********************************************
+********Navigating an array using lodash*********
+************************************************/
+
+// finding elements within the array
+var lodash = require('lodash');
+
+var dinosaurs = ['Tyrannosaurus', 'Stegosaurus', 'Allosaurus', 'Velociraptor'];
+
+console.log(dinosaurs[1]); /*returns Stegosaurus*/
+console.log(lodash.indexOf(dinosaurs, 'Stegosaurus')); /*returns 1*/
+console.log(lodash.indexOf(dinosaurs, 'fake')); /*returns -1 because fake doesn't exist in the array*/
+console.log(lodash.first(dinosaurs, 3)); /*returns ['Tyrannosaurus', 'Stegosaurus', 'Allosaurus']*/
+console.log(lodash.last(dinosaurs, 2)); /*returns ['Allosaurus', 'Velociraptor']*/
+console.log(lodash.initial(dinosaurs)); /*returns ['Tyrannosaurus', 'Stegosaurus', 'Allosaurus']*/
+console.log(lodash.rest(dinosaurs, 2)) /*returns ['Allosaurus', 'Velociraptor']*/
+
+/************************************************
+*********Manipulating arrays with Lodash*********
+************************************************/
+var lodash = require('lodash');
+
+var dinosaurs = ['Tyrannosaurus', 'Stegosaurus', 'Allosaurus', 'Velociraptor', 'Tyrannosaurus'];
+
+// getting the unique set of elements
+console.log(lodash.unique(dinosaurs))/*returns ['Tyrannosaurus', 'Stegosaurus', 'Allosaurus', 'Velociraptor']*/
+
+var new_dinos = ['Tyrannosaurus', 'Stegosaurus', 'Hadrosaur'];
+var new_pens = ['Pen 1', 'Pen 2', 'Pen 3'];
+
+console.log(lodash.zip(new_dinos, new_pens));
+/*retunrs
+[['Tyrannosaurus', 'Pen 1'],
+ ['Stegosaurus', 'Pen 2'],
+ ['Hadrosaur', 'Pen 3']]
+*/
+
+// intersection function is to find the element both on the array list
+console.log(lodash.intersection(dinosaurs, new_dinos)); /*returns ['Tyrannosaurus', 'Stegosaurus']*/
+
+// union function return an array with combined values from both arrays with the duplicates removed
+console.log(lodash.union(dinosaurs, new_dinos));
+/*returns
+['Tyrannosaurus', 
+ 'Stegosaurus', 
+ 'Allosaurus', 
+ 'Velociraptor',
+ 'Hadrosaur']
+*/
+
+/************************************************
+***********Creating and using objects************
+************************************************/
+/*
+Objects   - Specific type of data within an application
+Classes   - A blueprint for an object, classes can create many objects
+prototype - A single object that other objects inherit from
+*/
+
+var lodash = require('lodash');
+
+// object
+var dinosaur = {
+	name: 'Richard',
+	species: 'Tyrannosaurus',
+	pen : 'HB',
+	speak: function(){console.log('ROAR!!!!!');}
+};
+
+var Dino = function(){
+	this.name = 'Generic Dinosaurs';
+}
+
+lodash.create(Dino.prototype, {name: 'Tyrannosaurus'});
+// returns {name: 'Tyrannosaurus'}
+
+// Getting the key from dinosaur array
+lodash.keys(dinosaur)
+/*returns
+['name',
+ 'species',
+ 'pen',
+ 'speak']
+*/
+
+// Getting the values from dinosaur array
+lodash.values(dinosaur)
+/*returns
+['Richard',
+ 'Tyrannosaurus',
+ 'HB',
+ [Function]]
+*/
+
+// Getting the values and the key
+lodash.pairs(dinosaur)
+/*returns
+[['name', 'Richard',]
+ ['species', 'Tyrannosaurus',]
+ ['pen', 'HB'],
+ ['speak', [Function] ]]
+*/
+
+// check to say if values and keys exits
+lodash.has(dinosaur, 'name')
+/*returns true*/
+
+// Make the value uppercase
+lodash.mapValues(dinosaur, function(value){
+	if(lodash.isString(value)){
+		return value.toUpperCase();
+	}
+	return value;
+});
+{ name: 'RICHARD',
+  species: 'TYRANNOSAURUS',
+  pen: 'HB',
+  speak: [Function] }
+
+/************************************************
+***********Detecting types with Lo-dash************
+************************************************/
+var lodash = require('lodash');
+
+var dinosaur = 'Tyrannosaurus';
+var admission_fee = 44.99;
+
+// To confirm if it is a string
+lodash.isString(dinosaur);/*returns true*/
+
+// confirm if it is a number
+lodash.isNumber(admission_fee); /*returns true*/
+
+// Confirm if it is an array
+lodash.isArray(['Tyrannosaurus', 'Hadrosaur']); /*returns true*/
+
+// confirm if it is a regex
+lodash.isRegExp(/dinosaur/);/*returns true*/
+
+
+// NOTE: This function is created from the command line!
+// talk = function(dinosaur){
+// 	dinosaur.speak();
+// }
+dinosaur = {speak: function() {console.log("ROAR!!!");}}
+
+laboratory = function(){
+	return {
+		speak: function(){console.log('small roar');}}
+}
+
+talk = function(dinosaur){
+	if(lodash.isfunction(dinosaur)){
+		dinosaur().speak();
+	} else {
+		dinosaur.speak();
+	}
+}
+talk(laboratory);
+/*returns "small roar"*/
+talk(dinosaur);
+/*returns "ROAR"*/
+
+// another set of example using isUndefined function from lodash
+talk = function(dinosaur){
+	if(lodash.isfunction()){
+		dinosaur = dinosaur();
+	}
+	if(!isUndefined(dinosaur.speak)){
+		dinosaur.speak();
+	}
+}
+
+/************************************************
+***********Copy and cloning objects**************
+************************************************/
+var lodash = require('lodash');
+
+var dinosaur = {
+	name: 'Richard',
+	species: 'Tyrannosaurus',
+	pen: '1B',
+	speak: function(){console.log('ROAR!!!!');}
+};
+var dinosaur2 = {};
+
+// Assign dinosaur1 to dinosaur2
+lodash.assign(dinosaur2, dinosaur)
+/*{ name: 'Richard',
+  species: 'Tyrannosaurus',
+  pen: '1B',
+  speak: [Function]	
+}*/
+dinosaur2.speak() /*returns ROAR!!!!*/
+
+// Assign all the objects except the speak key and value
+dinosaur3 = lodash.omit(dinosaur, 'speak')
+/*{ name: 'Richard',
+  species: 'Tyrannosaurus',
+  pen: '1B'}
+}*/
+
+// It works the opposite way. We provide the list of properties to copy
+dinosaur4 = lodash.pick(dinosaur, ['name', 'species'])
+/*{ name:'Richard', species:'Tyrannosaurus'}*/
+
+// Using clone to copy brand new object
+// passing the source into the function
+lodash.clone(dinosaur)
+/*{ name: 'Richard',
+  species: 'Tyrannosaurus',
+  pen: '1B',
+  speak: [Function]	
+}*/
+
+dinosaurs = [
+	{name: 'Terry'},
+	{name: 'Thomas'}
+]
+// clone the object
+dinosaurs_copy = lodash.clone(dinosaur)
+dinosaurs === dinosaur_copy /*This will return false*/
+dinosaur[0] === dinosaurs_copy[0]/*This will return true*/
+
+// Using deep clone
+dinosaurs_deep_copy = lodash.cloneDeep(dinosaurs)
+dinosaurs[0] === dinosaurs_deep_copy[0]/*This will return false*/
+
+/************************************************
+***********Reusing code with lodash**************
+************************************************/
+var animal = function(){
+	this.hungry = true;
+	this.eat = function(food){
+		this.hungry = false;
+	}
+}
+
+var Dino = function(){
+	Animal.call(this);
+	this.name = 'Generic Dinosaur';
+}
+
+Dino.prototype = lodash.create(Animal.prototype, {'constructor': Dino});
+var tRex = new Dino({name: 'Tyrannosaurus'});
+var Hadrosaur = new Dino({name: 'Hadrosaur'}); 
+
+/********************/
+
+var Dino = {
+	hungry: true,
+	eat: function(food){
+		hungry = false;
+	}
+}
+var tRex = {};
+// Assign Dino to tRex
+lodash.assign(tRex, Dino)
+
+var dinosaur = {
+	name: 'Tyrannosaurus'
+}
+var roarFunctions = {
+	speak: function(){
+		console.log('ROAR');
+	}
+}
+// mixin functions to mix the functions
+lodash.mixin(dinosaur, roarFunctions);
+dinosaur.speak(); /*returns ROAR*/
+
+var tiger = {}
+lodash.mixin(tiger, roarFunctions);
+dinosaur.speak(); /*returns ROAR*/
+
+/************************************************
+**********Finding data in collections************
+************************************************/ 
+/*Finding specific element from the collection*/
+
+var dinosaurs = require('lodash');
+var dinosaurs = [
+	{name: 'Terry', species: 'Tyrannosaurus', pen: '1A'},
+	{name: 'Theresa', species: 'Tyrannosaurus', pen: '1B'},
+	{name: 'Henry', species: 'Hadrosaur', pen: '2'},
+	{name: 'Harriet', species: 'Hadrosaur', pen: '3'},
+	{name: 'Stanley', species: 'Stegosaurus', pen: '4'}
+]
+// in normal javascript
+dinosaurs[0];
+/*returns 
+	{name: 'Theresa', species: 'Tyrannosaurus', pen: '1B'}
+*/
+
+// Get the elements of an array by passing a list of indexes
+lodash.at(dinosaurs, [0,2,4]);
+/*retunrs 
+[
+	{name: 'Terry', species: 'Tyrannosaurus', pen: '1A'},
+	{name: 'Henry', species: 'Hadrosaur', pen: '2'},
+	{name: 'Stanley', species: 'Stegosaurus', pen: '4'}
+]
+*/
+
+// Finding single element from the collection with condition
+lodash.find(dinosaurs, function(dinosaur){
+	return dinosaur.name == 'Stanley';
+});
+/*returns
+	{name: 'Stanley', species: 'Stegosaurus', pen: '4'}
+*/
+
+// finding single element with reverse direction from end to the beginning
+lodash.findLast(dinosaurs, function(dinosaur){
+	return dinosaur.pen == '3';
+});
+/*return
+	{name: 'Harriet', species: 'Hadrosaur', pen: '3'}
+*/
+
+// finding specific properties from the collection by passing the key
+lodash.pluck(dinosaurs, 'name');
+/*returns
+	['Terry',
+	'Theresa',
+	'Henry',
+	'Harriet',
+	'Stanley']
+*/
+
+/************************************************
+************Filtering collections****************
+************************************************/ 
+var dinosaurs = require('lodash');
+var dinosaurs = [
+	{name: 'Terry', species: 'Tyrannosaurus', pen: '1A'},
+	{name: 'Theresa', species: 'Tyrannosaurus', pen: '1B'},
+	{name: 'Henry', species: 'Hadrosaur', pen: '2'},
+	{name: 'Harriet', species: 'Hadrosaur', pen: '3'},
+	{name: 'Stanley', species: 'Stegosaurus', pen: '4'}
+]
+
+// Using filter function to get the elements by condition
+lodash.filter(dinosaurs, function(dinosaur){
+	return dinosaur.species == 'Hadrosaur';
+});
+/*returns
+	[{name: 'Henry', species: 'Hadrosaur', pen: '2'},
+	{name: 'Harriet', species: 'Hadrosaur', pen: '3'}]
+*/
+
+// reject function returns an array of elements that do not meet the condition
+lodash.reject(dinosaurs, function(dinosaur){
+	return dinosaur.species == 'Tyrannosaur';
+});
+/*returns
+    [{name: 'Terry', species: 'Tyrannosaurus', pen: '1A'},
+	 {name: 'Theresa', species: 'Tyrannosaurus', pen: '1B'},
+	 {name: 'Henry', species: 'Hadrosaur', pen: '2'},
+	 {name: 'Harriet', species: 'Hadrosaur', pen: '3'},
+	 {name: 'Stanley', species: 'Stegosaurus', pen: '4'}]
+*/
+
+// where function is easy to use!!!! just pass the condition
+lodash.where(dinosaurs, {'species' : 'Hadrosaur'});
+/*returns
+	[{name: 'Henry', species: 'Hadrosaur', pen: '2'},
+	 {name: 'Harriet', species: 'Hadrosaur', pen: '3'}]
+*/
+lodash.where(dinosaurs, {'species' : 'Hadrosaur', 'pen' : '3'});
+/*returns
+	[{name: 'Harriet', species: 'Hadrosaur', pen: '3'}]
+*/
+
+// some function returns boolean. it retunrs true if it found the natches from the collection
+lodash.some(dinosaurs, {'species' : 'Hadrosaur', 'pen' : '3'});
+/*returns true*/
+
+// every funciton returns true if every object in the colleciton matches the condition
+lodash.every(dinosaurs, {'species' : 'Hadrosaur', 'pen' : '3'});
+/*returns false*/
+
+/************************************************
+************Categorizing data********************
+************************************************/ 
+var lodash = require('lodash');
+
+var dinosaurs = [
+	{name: 'Terry', species: 'Tyrannosaurus', pen: '1A', diet: 'Meat'},
+	{name: 'Theresa', species: 'Tyrannosaurus', pen: '1B', diet: 'Meat'},
+	{name: 'Henry', species: 'Hadrosaur', pen: '1A', diet: 'Plant'},
+	{name: 'Harriet', species: 'Hadrosaur', pen: '3', diet: 'Plant'},
+	{name: 'Stanley', species: 'Stegosaurus', pen: '4', diet: 'Plant'}
+]	
+
+// a countBy function takes a collection and a function to apply each element
+lodash.countBy(dinosaurs, function(dinosaur){
+	return dinosaur.diet
+})
+lodash.countBy(dinosaurs, 'diet');
+/*returns
+	{Meat: 2, Plant: 3}
+*/
+
+// Combine groupBy
+lodash.groupBy(dinosaurs, 'diet');
+/*returns
+	Meat: [
+		{name: 'Terry', species: 'Tyrannosaurus', pen: '1A', diet: 'Meat'},
+		{name: 'Theresa', species: 'Tyrannosaurus', pen: '1B', diet: 'Meat'},
+		{name: 'Henry', species: 'Hadrosaur', pen: '1A', diet: 'Meat'}
+	]
+	Plant: [
+		{name: 'Harriet', species: 'Hadrosaur', pen: '3', diet: 'Plant'},
+		{name: 'Stanley', species: 'Stegosaurus', pen: '4', diet: 'Plant'}
+	]
+*/
+
+var vegetarians = lodash.groupBy(dinosaurs, 'diet').plant;
+lodash.pluck(vegetarians, 'pen');
+/*returns 
+	['2', '3', '4']
+*/
+
+lodash.sortBy(dinosaurs, ['species', 'name']);
+/*returns alphabetically sort by name in an array*/
+
+/************************************************
+*****Using statistical and Random fucntions******
+************************************************/ 
+var lodash = require('lodash');
+
+var trivia = [
+	{ question: 'When did the most dinosaurs become extinct?', answer: '65 millions years ago' },
+	{ question: 'What do you call a person who studies dinosaurs?', answer: 'paleontologist' },
+	{ question: 'What do you call a dinosaur that eats meat?', answer: 'Carnivore' },
+	{ question: 'What family of dinosaurs was the largest in weight?', answer: 'Sauropods' }
+]
+
+// sample random to get data
+lodash.random(1,10);
+/*retunrs random number from 1-10*/
+
+// get a single random elements from the array
+lodash.at(trivia, lodash.random(0, lodash.size(trivia)-1))
+/*returns
+[
+ { question: 'some_random_questions', answer: 'answer_for_the_question' }
+ ]
+ }
+*/
+ 
+ // get multiple random elements from an array
+ lodash.sample(trivia, 3)
+ /*
+ 	returns an array with 3 elements
+ */
+
+// get single elements from an array
+ lodash.sample(trivia, 1)
+
+// shuffle the collection of data
+lodash.shuffle(trivia)
+
+/************************************************
+*********Applying Map_Reduce in Lo-dash**********
+************************************************/
+
+var dinosaurs = [	
+	{name: 'Terry', length: '30', weight: '6000', age: "6"},
+	{name: 'Theresa', length: '32', weight: '5000', age: "4"},
+	{name: 'Henry', length: '12', weight: '4000', age: "3"},
+	{name: 'Harriet', length: '14', weight: '2000', age: "2"},
+	{name: 'Stanley', length: '15', weight: '7000', age: "7"}
+];
+lodash.map(dinosaurs, function(element) {
+	return element.weight + 'kilograms'
+});
+/*return
+   [6000 kilograms,
+	5000 kilograms,
+	4000 kilograms,
+	2000 kilograms,
+	7000 kilograms]
+*/
+
+lodash.reduce([6000, 899, 1320], function(sum, nextNum){
+	return sum + nextNum;
+});
+/*returns 8219*/
+
+// combining reduce and map function
+lodash.reduce(lodash.map(dinosaurs, 'weight'), function(sum, nextNum){
+	return sum + nextNum;
+});
+/*retunrs 24000*/
+
+/************************************************
+******Throttling and Delaying functions**********
+************************************************/
+var lodash = require('lodash');
+
+var dinosaurs = [	
+	{name: 'Terry', species: 'Tyrannosaurus' hungry: 'true'},
+	{name: 'Theresa', species: 'Tyrannosaurus' hungry: 'true'},
+	{name: 'Henry', species: 'Hadrosaur' hungry: 'true'},
+	{name: 'Harriet', species: 'Hadrosaur' hungry: 'true'},
+	{name: 'Stanley', species: 'Stegosaurus' hungry: 'true'}
+];
+
+// calling this function feeds the dinosaurs evrytime it's called
+var feedDinos = function(){
+	console.log('feeding dinosaurs');
+	lodash(dinosaurs).forEach(function(dino){
+		dino.hungry = false;
+	});
+}
+
+// throttled 6 hours
+var throttledFeedDinos = lodash.throttle(feedDinos, 1000*60*60*6)
+
+var timed1 = setTimeout(throttledFeedDinos, 1000);
+var timed2 = setTimeout(throttledFeedDinos, 2000);
+
+var feedButtonHandler = function(){
+	feedDinos();
+}
+
+// it ensures that it called once after a milliseconds called
+var debounced = lodash.debounce(feedButtonHandler, 100)
+ 
+ // takes a function and execute a function after it waits the miliseconds specified by the second argument
+ lodash.delay(function() {
+ 	console.log('Lights out!')
+ }, 1000*60*5);
+
+/************************************************
+***************Chaining function*****************
+************************************************/
+var lodash = require('lodash');
+
+var dinosaurs = [	
+	{name: 'Terry', species: 'Tyrannosaurus' sleeping: 'false'},
+	{name: 'Theresa', species: 'Tyrannosaurus' sleeping: 'false'},
+	{name: 'Henry', species: 'Hadrosaur' sleeping: 'true'},
+	{name: 'Harriet', species: 'Hadrosaur' sleeping: 'true'},
+	{name: 'Stanley', species: 'Stegosaurus' sleeping: 'false'}
+];
+
+// filter operation first
+var dinos = lodash.where(dinosaurs, {species: 'Tyrannosaurus', sleeping: false})
+/*This will return all awake dinosaurs*/
+
+// map function
+var messages = lodash.map(dinos, function(d) {return d.name + ' is awake'});
+
+lodash.first(messages)
+/*returns Terry is awake*/
+
+// Wrapping the collection into an object
+lodash.chain(dinosaurs)
+/*return 
+	{ __chain__:true,
+		__wrapped__:[
+			{name: 'Terry', species: 'Tyrannosaurus' sleeping: 'false'},
+			{name: 'Theresa', species: 'Tyrannosaurus' sleeping: 'false'},
+			{name: 'Henry', species: 'Hadrosaur' sleeping: 'true'},
+			{name: 'Harriet', species: 'Hadrosaur' sleeping: 'true'},
+			{name: 'Stanley', species: 'Stegosaurus' sleeping: 'false'}
+		] 
+	}
+*/
+
+lodash.chain(dinosaurs).
+	where({species: 'Tyrannosaurus', sleeping: false}).
+	map(function(d) {return d.name + ' is awake'}).
+	first().
+	value() /*value means return the value from the chain*/
+/*returns
+ Terry is awake
+ --same result as the previous code
+*/
+
+/************************************************
+*******Binding application context***************
+************************************************/
+var dinosaur = {
+	name: 'Terry',
+	speak: speak
+}
+
+dinosaur.speak()
+/*retunrs Terry*/
+
+var myboundfunc = lodash.bind(speak, dinosaur);
+myboundfunc();
+/*returns Terry*/
+
+var myboundfunc = lodash.bind(speak, {name: 'Theresa'});
+myboundfunc();
+/*returns Theresa*/
+
+var guiButton = {
+	text: 'Press Me!',
+	onClick: function(){
+		console.log('clicked on ' + this.text);
+	}
+}
+lodash.bind(guiButton.onClick, guiButton)()
+/*returns clicked on Press Me!*/
+
+-------------
+var guiButton = {
+	text: 'Press Me!',
+	onClick: function(){
+		console.log('clicked on ' + this.text);
+	},
+	onDbClick: function(){
+		console.log('double clicked on ' + this.text);
+	},
+}
+
+lodash.bindAll(guiButton, 'onClick', 'onDbClick')
+/*returns 
+	{text: 'Press Me!',
+		onClick: [Function: bound],
+		onDbClick: [Function: bound]}
+*/
+
