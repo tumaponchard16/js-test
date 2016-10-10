@@ -1,0 +1,15 @@
+{
+  "name": "tutplus-jquery",
+  "version": "1.0.0",
+  "description": "Some Project for Jquery Introduction course ",
+  "main": "index.js",
+  "scripts": {
+    "lite": "lite-server -port 10001",
+    "start": "npm run lite"
+  },
+  "author": "Richard T.",
+  "license": "ISC",
+  "devDependencies": {
+    "lite-server": "^2.2.2"
+  }
+}
